@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Quem pode ver a aula? | Aldemar Studios</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101d29;color:#f7f4eb;font:17px/1.55 "Segoe UI",sans-serif}main{max-width:820px;margin:auto;padding:6vh 5vw}header{color:#98dfc8;letter-spacing:.12em;font-size:.84rem;font-weight:700}h1{font:clamp(2.8rem,7vw,5rem)/1 Georgia,serif;margin:.5em 0}section{background:#f8f5ed;color:#182c36;border-radius:16px;padding:clamp(18px,4vw,36px);margin:24px 0}h2{font:1.65rem/1.2 Georgia,serif;margin:0 0 16px}select,button{font:inherit;padding:9px 14px;border-radius:7px;max-width:100%}label{display:block;font-weight:bold;margin-bottom:5px}button{background:#155648;color:white;border:0;cursor:pointer}button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #e58f28;outline-offset:3px}pre{white-space:pre-wrap;background:#172d39;color:#b7edce;border-radius:8px;padding:18px}summary{cursor:pointer;font-weight:bold}details{margin:12px 0}small{color:#b9c8cb}</style>
+<main><header>ALDEMAR STUDIOS · SEGURANÇA WEB</header><h1>Quem pode ver a aula?</h1><p>Você está conectado como aluno do plano gratuito. A aula de inglês “Guitarra em inglês” pertence ao plano Premium. O que deve acontecer quando você pede para abrir a aula?</p>
+<section><h2>Teste a decisão do servidor</h2><label for="mode">Cenário da simulação</label><select id="mode"><option value="weak">Site com falha</option><option value="checked">Site com verificação</option></select>
+<p><button id="ask">Solicitar a aula Premium</button></p><div aria-live="polite"><pre id="result">Aguardando seu pedido.</pre><p id="reason"></p></div></section>
+<section><h2>Investigue o resultado</h2><p>Faça o pedido nos dois cenários usando o mesmo perfil. Em qual deles o conteúdo chegou ao navegador?</p><details><summary>Conferir a explicação</summary><p>No primeiro, o servidor simulado reconheceu o aluno e entregou a aula sem conferir o plano. No segundo, verificou o plano antes de responder. O código 403 indica que o pedido foi entendido e o acesso foi recusado.</p></details>
+<details><summary>Como aplicar isso no meu site?</summary><p>O login identifica o aluno. A autorização decide quais aulas ele pode abrir. No seu backend, confira a permissão a cada pedido de conteúdo pago. Teste com duas contas de demonstração, uma gratuita e outra Premium. Só a segunda deve receber o conteúdo da aula.</p></details></section><small>Simulação local com uma aula fictícia. As respostas HTTP são ilustrativas.</small></main>
+<script>
+const mode = document.querySelector('#mode');
+const result = document.querySelector('#result');
+const reason = document.querySelector('#reason');
+mode.addEventListener('change', () => {
+  result.textContent = 'Aguardando seu pedido.';
+  reason.textContent = '';
+});
+document.querySelector('#ask').addEventListener('click', () => {
+  const checksPlan = mode.value === 'checked';
+  result.textContent = checksPlan ? '403 · Acesso recusado' : '200 · Aula entregue\n“Strings” significa “cordas”.';
+  reason.textContent = checksPlan ? 'O perfil gratuito recebeu apenas a recusa.' : 'O conteúdo Premium chegou ao perfil gratuito.';
+});
+</script></html>
